@@ -16,18 +16,13 @@ public class AuthService {
     @Autowired
     private UserRepository userRepository;
 
-    @Autowired
-    private JwtService jwtService;
-
     public Map<String, Object> handleOAuthSuccess() {
         OAuth2User oauth2User = (OAuth2User) SecurityContextHolder.getContext()
                 .getAuthentication().getPrincipal();
 
         User user = saveOrUpdateUser(oauth2User);
-        String token = jwtService.generateToken(user);
 
         Map<String, Object> response = new HashMap<>();
-        response.put("token", token);
         response.put("user", user);
 
         return response;
